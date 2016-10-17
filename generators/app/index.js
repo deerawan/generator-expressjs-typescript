@@ -2,6 +2,7 @@
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
+var _ = require('lodash');
 
 module.exports = yeoman.Base.extend({
   prompting: function () {
@@ -10,16 +11,18 @@ module.exports = yeoman.Base.extend({
       'Welcome to the super-excellent ' + chalk.red('generator-expressjs-typescript') + ' generator!'
     ));
 
+    var done = this.async();
+
     var prompts = [{
-      type: 'confirm',
-      name: 'someAnswer',
-      message: 'Would you like to enable this option?',
-      default: true
+      type: 'input',
+      name: 'appname',
+      message: 'Project name',
+      default: this.appname
     }];
 
     return this.prompt(prompts).then(function (props) {
-      // To access props later use this.props.someAnswer;
       this.props = props;
+      done();
     }.bind(this));
   },
 
@@ -27,6 +30,12 @@ module.exports = yeoman.Base.extend({
     this.fs.copy(
       this.templatePath('dummyfile.txt'),
       this.destinationPath('dummyfile.txt')
+    );
+    this.fs.copyTpl(
+      this.templatePath('_package.json'),
+      this.destinationPath('package.json'), {
+          appname: this.props.appname
+      }
     );
   },
 
