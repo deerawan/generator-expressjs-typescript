@@ -27,15 +27,27 @@ module.exports = yeoman.Base.extend({
   },
 
   writing: function () {
-    this.fs.copy(
-      this.templatePath('dummyfile.txt'),
-      this.destinationPath('dummyfile.txt')
-    );
     this.fs.copyTpl(
       this.templatePath('_package.json'),
       this.destinationPath('package.json'), {
           appname: this.props.appname
       }
+    );
+    this.fs.copyTpl(
+      this.templatePath('_tsconfig.json'),
+      this.destinationPath('tsconfig.json')
+    );
+    this.fs.copyTpl(
+      this.templatePath('_tslint.json'),
+      this.destinationPath('tslint.json')
+    );
+    this.fs.copyTpl(
+      this.templatePath('_.editorconfig'),
+      this.destinationPath('.editorconfig')
+    );
+    this.fs.copyTpl(
+      this.templatePath('_.gitignore'),
+      this.destinationPath('.gitignore')
     );
   },
 
