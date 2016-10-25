@@ -27,28 +27,26 @@ module.exports = yeoman.Base.extend({
   },
 
   writing: function () {
-    this.fs.copyTpl(
-      this.templatePath('_package.json'),
-      this.destinationPath('package.json'), {
-          appname: this.props.appname
-      }
-    );
-    this.fs.copyTpl(
-      this.templatePath('_tsconfig.json'),
-      this.destinationPath('tsconfig.json')
-    );
-    this.fs.copyTpl(
-      this.templatePath('_tslint.json'),
-      this.destinationPath('tslint.json')
-    );
-    this.fs.copyTpl(
-      this.templatePath('_.editorconfig'),
-      this.destinationPath('.editorconfig')
-    );
-    this.fs.copyTpl(
-      this.templatePath('_.gitignore'),
-      this.destinationPath('.gitignore')
-    );
+    templates: function() {
+      this.fs.copyTpl(
+        this.templatePath('_package.json'),
+        this.destinationPath('package.json'), {
+            appname: this.props.appname
+        }
+      );
+    },
+    files: function () {
+      this.copy('_.editorconfig', '.editorconfig');
+      this.copy('_tsconfig.json', 'tsconfig.json');
+      this.copy('_tslint.json', 'tslint.json');
+      this.copy('_.gitignore', '.gitignore');
+    },
+    directories: function () {
+      this.directory('_.vscode', '.vscode');
+      this.directory('_public', 'public');
+      this.directory('_routes', 'routes');
+      this.directory('_views', 'views');
+    }
   },
 
   install: function () {
